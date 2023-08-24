@@ -1,11 +1,11 @@
 import "./App.css";
-import Header from "./Header";
-import Post from "./Post";
+import Header from "./Components/Header";
+import Post from "./Components/Post";
 import { Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
-import IndexPage from "./IndexPage";
-import Login from "./Login";
-import Register from "./Register";
+import Layout from "./Components/Layout";
+import IndexPage from "./Page/IndexPage";
+import Login from "./Page/Login";
+import Register from "./Page/Register";
 function App() {
   return (
     <Routes>
