@@ -20,7 +20,7 @@ app.get("/register",(req,res)=>{
   res.json("go it")
 })
 
-//login get request
+//login get request chck
 
 app.post("/login",async(req,res)=>{
   const{username,password}= req.body;
