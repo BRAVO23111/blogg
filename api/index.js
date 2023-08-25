@@ -5,10 +5,11 @@ const mongoose=require('mongoose');
 const User = require('./models/User')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "hasbdfcbsbdfibsdbhcbsdhjcb"
-
+app.use(cookieParser()) 
 
 app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 //database connection
@@ -49,9 +50,28 @@ app.post("/register", async (req, res) => {
   res.json(userDoc); 
 });
 
+
+
+app.get("/profile",(req,res)=>{
+  const {token} =req.cookies;
+  jwt.verify(token,secret,{},(err,info)=>{
+    if (err) throw err;
+    res.json(info)
+  })
+})
+
+app.post("/logout",(req,res)=>{
+  req.cookie('token',' ').json(ok)
+})
+
+
 app.listen(4000, (req, res) => {
   console.log("server at 4000");
 });
+
+
+
+
 
 //
 
