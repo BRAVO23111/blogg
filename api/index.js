@@ -9,11 +9,13 @@ const jwt = require('jsonwebtoken')
 const salt = bcrypt.genSaltSync(10);
 const secret = "hasbdfcbsbdfibsdbhcbsdhjcb"
 
+
+app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 //database connection
- mongoose.connect('mongodb+srv://blog:7MqtGudi8a3zv5Ar@cluster0.1ksvgrb.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true})
+ mongoose.connect('mongodb+srv://blog:HeZgF7qHvBxQnl83@cluster0.j3bkuiq.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true})
 
 
-app.use(cors());
+
 app.use(express.json());
 // app.use(express.static(__dirname));
 app.get("/register",(req,res)=>{
@@ -29,10 +31,8 @@ app.post("/login",async(req,res)=>{
   if(passok){
     jwt.sign({username,id:userDoc._id}, secret, {}, (err,token) => {
       if (err) throw err;
-      res.cookie('token', token).json({
-        id:userDoc._id,
-        username,
-      });
+      res.cookie('token', token).json('ok');
+      res.json(token)
     });
   } else {
     res.status(400).json('wrong credentials');
@@ -53,5 +53,8 @@ app.listen(4000, (req, res) => {
   console.log("server at 4000");
 });
 
-////mongodb+srv://blog:7MqtGudi8a3zv5Ar@cluster0.1ksvgrb.mongodb.net/?retryWrites=true&w=majority
+//
 
+
+
+//HeZgF7qHvBxQnl83
