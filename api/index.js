@@ -4,12 +4,13 @@ const app = express();
 const mongoose=require('mongoose');
 const User = require('./models/User')
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 
 const salt = bcrypt.genSaltSync(10);
-
+const secret = "hasbdfcbsbdfibsdbhcbsdhjcb"
 
 //database connection
- mongoose.connect('mongodb+srv://blog:7MqtGudi8a3zv5Ar@cluster0.1ksvgrb.mongodb.net/?retryWrites=true&w=majority')
+ mongoose.connect('mongodb+srv://blog:7MqtGudi8a3zv5Ar@cluster0.1ksvgrb.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true})
 
 
 app.use(cors());
@@ -26,13 +27,18 @@ app.post("/login",async(req,res)=>{
   const userDoc = await User.findOne({username})
   const passok = bcrypt.compareSync(password,userDoc.password)
   if(passok){
-
+    jwt.sign({username,id:userDoc._id}, secret, {}, (err,token) => {
+      if (err) throw err;
+      res.cookie('token', token).json({
+        id:userDoc._id,
+        username,
+      });
+    });
+  } else {
+    res.status(400).json('wrong credentials');
   }
-  else{
-    alert('wrong credentials')
-  }
-  res.json(userDoc)
-})
+});
+ 
 
 //register get request
 
