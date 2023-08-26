@@ -1,48 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {UserContext} from "../Usercontext";
 
-const Header = () => {
-  const [username, setUsername] = useState(null);
-
+export default function Header() {
+  const {setUserInfo,userInfo} = useContext(UserContext);
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/profile', {
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          const userInfo = await response.json(); // Corrected this line
-          setUsername(userInfo.username);
-        }
-      } catch (error) {
-        // Handle any errors that occur during the fetch
-        console.error('Error fetching user info:', error);
-      }
-    };
-
-    fetchUserInfo();
+    fetch('http://localhost:4000/profile', {
+      credentials: 'include',
+    }).then(response => {
+      response.json().then(userInfo => {
+        setUserInfo(userInfo);
+      });
+    });
   }, []);
-  function logout(){
-    fetch("http://localhost:4000/logout",{
-      credentials:'include',
-      method:'POST',
-    })
-    setUsername(null);
+
+  function logout() {
+    fetch('http://localhost:4000/logout', {
+      credentials: 'include',
+      method: 'POST',
+    });
+    setUserInfo(null);
   }
+
+  const username = userInfo?.username;
+
   return (
     <header>
-      <Link to="/">My Blog</Link>
+      <Link to="/" className="logo">MyBlog</Link>
       <nav>
-        {username ? (
+        {username && (
           <>
-          <Link to="/create">
-          Create Post
-         </Link>
-         <a onClick={logout}>Logout</a>
+            <Link to="/create">Create new post</Link>
+            <a onClick={logout}>Logout ({username})</a>
           </>
-         
-        ) : (
+        )}
+        {!username && (
           <>
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>
@@ -51,6 +43,4 @@ const Header = () => {
       </nav>
     </header>
   );
-};
-
-export default Header;
+}

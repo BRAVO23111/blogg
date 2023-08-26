@@ -39,6 +39,4 @@ const Register = () => {
 
 export default Register
 
-
-//7MqtGudi8a3zv5Ar
-//mongodb+srv://blog:7MqtGudi8a3zv5Ar@cluster0.1ksvgrb.mongodb.net/?retryWrites=true&w=majority
+//6VIG170yJlowg9FJ
