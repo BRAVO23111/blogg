@@ -79,19 +79,58 @@ header nav{
   border-radius: 3px;
 }
 
-.login-form button {
+button {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
-  color: #fff;
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
 }
-.login-form button:hover {
+button:hover {
   background-color: #0056b3;
 }
 
-.login-form button:focus {
+button:focus {
   outline: none;
+}
+.createpost{
+  width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+input[type="title"],
+input[type="file"],
+input[type="summary"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+input[type="file"] {
+  cursor: pointer;
+}
+
+.quill-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Adjust ReactQuill styles as needed */
+.ql-editor {
+  min-height: 200px;
 }
