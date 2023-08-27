@@ -22,7 +22,7 @@ mongoose.connect(
 );
 
 app.use(express.json());
-// app.use(express.static(__dirname));
+app.use('uploads',express.static(__dirname));
 // app.get("/register",(req,res)=>{
 //   res.json("go it")
 // })
@@ -74,15 +74,25 @@ app.post("/post", uploadmiddleware.single("file"), async (req, res) => {
   const ext = parts[parts.length - 1];
   const newpath = path + "." + ext;
   fs.renameSync(path, newpath);
-  const { title, summary, content } = req.body;
-  const PostDoc = await PostUser.create({
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) throw err;
+    const { title, summary, content } = req.body;
+    const PostDoc = await PostUser.create({
     title,
     summary,
     content,
     cover: newpath,
   });
   res.json(PostDoc);
+  });
+  
 });
+
+app.get("/post",async(req,res)=>{
+    res.json(await PostUser.find());
+})
+
 
 app.listen(4000, (req, res) => {
   console.log("server at 4000");
