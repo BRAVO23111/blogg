@@ -22,7 +22,7 @@ mongoose.connect(
 );
 
 app.use(express.json());
-app.use('uploads',express.static(__dirname));
+app.use('/uploads',express.static(__dirname+'/uploads'));
 // app.get("/register",(req,res)=>{
 //   res.json("go it")
 // })

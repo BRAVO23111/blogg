@@ -7,6 +7,7 @@ const IndexPage = () => {
     fetch("http://localhost:4000/post").then(response=>{
       response.json().then((posts)=>{
         setPosts(posts);
+        console.log(posts)
       })
     })
   },[])
@@ -17,8 +18,8 @@ const IndexPage = () => {
         key={index}
         title={post.title}
         summary={post.summary}
-        content={posts.content}
-        cover={posts.cover}
+        content={post.content}
+        cover={post.cover}
       />
     ))}
     </>

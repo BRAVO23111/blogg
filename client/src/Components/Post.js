@@ -3,7 +3,7 @@ const Post = ({title,summary,content,cover}) => {
   return (
     <div className="entries">
     <div className="image">
-      <img src={"http://localhost:4000"+cover}></img>
+    <img src={'http://localhost:4000/' + cover} alt="" />
     </div>
     <div>
     <h2>{title}</h2>
