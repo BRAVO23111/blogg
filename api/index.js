@@ -55,6 +55,38 @@ app.post("/login", async (req, res) => {
     res.status(400).json("wrong credentials");
   }
 });
+app.put('/post', uploadmiddleware.single("file"),async(req,res)=>{
+  let newPath = null;
+  if (req.file) {
+    const {originalname,path} = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    newPath = path+'.'+ext;
+    fs.renameSync(path, newPath);
+  }
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {},async (err, info) => {
+    if (err) throw err;
+    const {postid, title, summary, content } = req.body;
+    const postdata = await PostUser.findById(postid);
+    const isid = PostUser.postid = info.postid;
+    res.json({isid});
+    // res.json(info);
+  });
+  // jwt.verify(token, secret, {}, async (err, info) => {
+  //   if (err) throw err;
+    // const {postid, title, summary, content } = req.body;
+    // const postdata = await PostUser.findById(postid);
+    // const isid = PostUser.postid = info.postid;
+    // res.json({isid});
+    // const PostDoc = await PostUser.create({
+    // title,
+    // summary,
+    // content,
+    // cover: newpath,
+    // });
+      // res.json(PostDoc);
+    });
 
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
@@ -74,24 +106,35 @@ app.post("/post", uploadmiddleware.single("file"), async (req, res) => {
   const ext = parts[parts.length - 1];
   const newpath = path + "." + ext;
   fs.renameSync(path, newpath);
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
-    if (err) throw err;
-    const { title, summary, content } = req.body;
-    const PostDoc = await PostUser.create({
-    title,
-    summary,
-    content,
-    cover: newpath,
-  });
-  res.json(PostDoc);
-  });
   
-});
+   const {title, summary, content } = req.body;
+  const PostDoc = await PostUser.create({
+  title,
+  summary,
+  content,
+  cover: newpath,
+  });
+    res.json(PostDoc);
+  });
+
+  // const { title, summary, content } = req.body;
+  // const PostDoc = await PostUser.create({
+  // title,
+  // summary,
+  // content,
+  // cover: newpath,
+  // });
 
 app.get("/post",async(req,res)=>{
     res.json(await PostUser.find());
 })
+
+app.get('/post/:postid',async(req,res)=>{
+  const {postid} = req.params;
+  const postData = await PostUser.findById(postid);
+  res.json(postData);
+})
+
 
 
 app.listen(4000, (req, res) => {

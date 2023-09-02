@@ -20,22 +20,12 @@ const IndexPage = () => {
         summary={post.summary}
         content={post.content}
         cover={post.cover}
+        postid={post._id}
       />
     ))}
     </>
   )
 }
-// return (
-//   <div>
-//     {posts.map((post, index) => (
-//       <Post
-//         key={index}
-//         title={post.title}
-//         summary={post.summary}
-//         content={post.content}
-//       />
-//     ))}
-//   </div>
-// );
+
 
 export default IndexPage
